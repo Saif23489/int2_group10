@@ -50,4 +50,6 @@ t_localisation move(t_localisation, t_move);
  */
 void updateLocalisation(t_localisation *, t_move);
 
+t_position calculateNextPosition(t_position pos, t_move move);
+
 #endif //UNTITLED1_MOVES_H
