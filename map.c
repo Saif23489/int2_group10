@@ -4,14 +4,6 @@
 #include "loc.h"
 #include "queue.h"
 
-/* prototypes of local functions */
-/* local functions are used only in this file, as helper functions */
-
-/**
- * @brief : function to get the position of the base station
- * @param map : the map
- * @return : the position of the base station
- */
 t_position getBaseStationPosition(t_map map) {
     t_position pos;
     int i = 0;
@@ -28,7 +20,6 @@ t_position getBaseStationPosition(t_map map) {
         }
         i++;
     }
-    // if the base station is not found, we exit the program
     if (!found) {
         fprintf(stderr, "Error: base station not found in the map\n");
         exit(1);
@@ -37,7 +28,6 @@ t_position getBaseStationPosition(t_map map) {
 }
 
 void removeFalseCrevasses(t_map map) {
-    // step 1 : find the minimal cost > 10000 in the costs array where the soil is not a crevasse
     int over = 0;
     int imin, jmin;
     while (!over) {
@@ -54,28 +44,22 @@ void removeFalseCrevasses(t_map map) {
             }
         }
         if (imin < map.y_max && jmin < map.x_max) {
-            // step 2 : calculate the costs of the neighbours of the position
-            t_position pos;
-            pos.x = jmin;
-            pos.y = imin;
-            t_position lp, rp, up, dp;
-            lp = LEFT(pos);
-            rp = RIGHT(pos);
-            up = UP(pos);
-            dp = DOWN(pos);
+            t_position pos = {jmin, imin};
+            t_position lp = LEFT(pos), rp = RIGHT(pos), up = UP(pos), dp = DOWN(pos);
             int min_neighbour = COST_UNDEF;
-            if (isValidLocalisation(lp, map.x_max, map.y_max)) {
+
+            if (isValidLocalisation(lp, map.x_max, map.y_max))
                 min_neighbour = (map.costs[lp.y][lp.x] < min_neighbour) ? map.costs[lp.y][lp.x] : min_neighbour;
-            }
-            if (isValidLocalisation(rp, map.x_max, map.y_max)) {
+
+            if (isValidLocalisation(rp, map.x_max, map.y_max))
                 min_neighbour = (map.costs[rp.y][rp.x] < min_neighbour) ? map.costs[rp.y][rp.x] : min_neighbour;
-            }
-            if (isValidLocalisation(up, map.x_max, map.y_max)) {
+
+            if (isValidLocalisation(up, map.x_max, map.y_max))
                 min_neighbour = (map.costs[up.y][up.x] < min_neighbour) ? map.costs[up.y][up.x] : min_neighbour;
-            }
-            if (isValidLocalisation(dp, map.x_max, map.y_max)) {
+
+            if (isValidLocalisation(dp, map.x_max, map.y_max))
                 min_neighbour = (map.costs[dp.y][dp.x] < min_neighbour) ? map.costs[dp.y][dp.x] : min_neighbour;
-            }
+
             int self_cost = _soil_cost[map.soils[imin][jmin]];
             map.costs[imin][jmin] = (min_neighbour + self_cost < map.costs[imin][jmin]) ? min_neighbour + self_cost : map.costs[imin][jmin];
         } else {
@@ -95,47 +79,73 @@ void calculateCosts(t_map map) {
         t_position lp = LEFT(pos), rp = RIGHT(pos), up = UP(pos), dp = DOWN(pos);
         int min_cost = COST_UNDEF;
 
-        // Update costs by examining valid neighbors
         if (isValidLocalisation(lp, map.x_max, map.y_max))
             min_cost = (map.costs[lp.y][lp.x] < min_cost) ? map.costs[lp.y][lp.x] : min_cost;
+
         if (isValidLocalisation(rp, map.x_max, map.y_max))
             min_cost = (map.costs[rp.y][rp.x] < min_cost) ? map.costs[rp.y][rp.x] : min_cost;
+
         if (isValidLocalisation(up, map.x_max, map.y_max))
             min_cost = (map.costs[up.y][up.x] < min_cost) ? map.costs[up.y][up.x] : min_cost;
+
         if (isValidLocalisation(dp, map.x_max, map.y_max))
             min_cost = (map.costs[dp.y][dp.x] < min_cost) ? map.costs[dp.y][dp.x] : min_cost;
 
-        // Set the cost of the current position based on terrain type and neighbors
         map.costs[pos.y][pos.x] = (map.soils[pos.y][pos.x] == BASE_STATION) ? 0 : min_cost + self_cost;
 
-        // Enqueue valid neighboring positions if not yet visited
         if (isValidLocalisation(lp, map.x_max, map.y_max) && map.costs[lp.y][lp.x] == COST_UNDEF) {
-            map.costs[lp.y][lp.x] = COST_UNDEF - 1;
             enqueue(&queue, lp);
         }
         if (isValidLocalisation(rp, map.x_max, map.y_max) && map.costs[rp.y][rp.x] == COST_UNDEF) {
-            map.costs[rp.y][rp.x] = COST_UNDEF - 1;
             enqueue(&queue, rp);
         }
         if (isValidLocalisation(up, map.x_max, map.y_max) && map.costs[up.y][up.x] == COST_UNDEF) {
-            map.costs[up.y][up.x] = COST_UNDEF - 1;
             enqueue(&queue, up);
         }
         if (isValidLocalisation(dp, map.x_max, map.y_max) && map.costs[dp.y][dp.x] == COST_UNDEF) {
-            map.costs[dp.y][dp.x] = COST_UNDEF - 1;
             enqueue(&queue, dp);
         }
     }
 }
 
 t_map createMapFromFile(char *filename) {
-    /* Original createMapFromFile code remains unchanged */
-}
+    FILE *file = fopen(filename, "r");
+    if (!file) {
+        fprintf(stderr, "Error: Cannot open file %s\n", filename);
+        exit(1);
+    }
 
-t_map createTrainingMap() {
-    /* Original createTrainingMap code remains unchanged */
+    t_map map;
+    fscanf(file, "%d %d", &map.y_max, &map.x_max);
+    if (map.x_max <= 0 || map.y_max <= 0) {
+        fprintf(stderr, "Error: Invalid map dimensions\n");
+        fclose(file);
+        exit(1);
+    }
+
+    map.soils = malloc(map.y_max * sizeof(t_soil *));
+    map.costs = malloc(map.y_max * sizeof(int *));
+    for (int i = 0; i < map.y_max; i++) {
+        map.soils[i] = malloc(map.x_max * sizeof(t_soil));
+        map.costs[i] = malloc(map.x_max * sizeof(int));
+    }
+
+    for (int i = 0; i < map.y_max; i++) {
+        for (int j = 0; j < map.x_max; j++) {
+            fscanf(file, "%d", (int *)&map.soils[i][j]);
+            map.costs[i][j] = COST_UNDEF;
+        }
+    }
+
+    fclose(file);
+    return map;
 }
 
 void displayMap(t_map map) {
-    /* Original displayMap code remains unchanged */
+    for (int i = 0; i < map.y_max; i++) {
+        for (int j = 0; j < map.x_max; j++) {
+            printf("%d ", map.soils[i][j]);
+        }
+        printf("\n");
+    }
 }
