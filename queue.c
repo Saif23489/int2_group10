@@ -25,7 +25,7 @@ t_queue createQueue(int size)
 
 void enqueue(t_queue *p_queue, t_position pos)
 {
-    // the queue must not be full
+    
     assert((p_queue->last - p_queue->first) < p_queue->size);
     p_queue->values[(p_queue->last) % p_queue->size] = pos;
     p_queue->last++;
@@ -34,7 +34,7 @@ void enqueue(t_queue *p_queue, t_position pos)
 
 t_position dequeue(t_queue *p_queue)
 {
-    // the queue must not be empty
+  
     assert(p_queue->last != p_queue->first);
     p_queue->first++;
     return p_queue->values[(p_queue->first - 1) % p_queue->size];
