@@ -13,7 +13,7 @@
  */
 t_stack createStack(int size)
 {
-    // the size of the stack must be positive
+ 
     assert(size > 0);
     t_stack stack;
     stack.size = size;
@@ -57,7 +57,7 @@ int pop(t_stack *p_stack)
  */
 int top(t_stack stack)
 {
-    // the stack must not be empty
+   
     assert(stack.nbElts > 0);
     return stack.values[stack.nbElts - 1];
 }
