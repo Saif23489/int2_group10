@@ -1,47 +1,48 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include "map.h"
-#include "loc.h"
-#include "moves.h"
-#include "queue.h"
-#include "stack.h"
+#include "../files.h//map.h"
+#include "tree.h"
+
 
 int main() {
-    
-    t_map map = createMapFromFile("C:\\Users\\malom\\CLionProjects\\int2_group10\\maps\\example1.map");
-    printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
+    t_map map;
 
-   
-    printf("Map Soils:\n");
+    // The following preprocessor directive checks if the code is being compiled on a Windows system.
+    // If either _WIN32 or _WIN64 is defined, it means we are on a Windows platform.
+    // On Windows, file paths use backslashes (\), hence we use the appropriate file path for Windows.
+#if defined(_WIN32) || defined(_WIN64)
+    map = createMapFromFile("..\\maps\\example1.map");
+#else
+    map = createMapFromFile("../maps/example1.map");
+#endif
+
+    printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
+    for (int i = 0; i < map.y_max; i++)
+    {
+        for (int j = 0; j < map.x_max; j++)
+        {
+            printf("%d ", map.soils[i][j]);
+        }
+        printf("\n");
+    }
+    // printf the costs, aligned left 5 digits
+    for (int i = 0; i < map.y_max; i++)
+    {
+        for (int j = 0; j < map.x_max; j++)
+        {
+            printf("%-5d ", map.costs[i][j]);
+        }
+        printf("\n");
+    }
     displayMap(map);
 
-   
-    t_localisation loc = loc_init(5, 5, NORTH);
-    printf("\nInitial Robot Position: (%d, %d), Orientation: %d\n", loc.pos.x, loc.pos.y, loc.ori);
 
-  
-    updateLocalisation(&loc, F_10);
-    printf("After Move F_10: (%d, %d), Orientation: %d\n", loc.pos.x, loc.pos.y, loc.ori);
 
-    updateLocalisation(&loc, T_RIGHT);
-    printf("After Turn Right: (%d, %d), Orientation: %d\n", loc.pos.x, loc.pos.y, loc.ori);
 
-  
-    t_queue queue = createQueue(10);
-    t_position start_pos = {2, 3};
+        t_localisation start_loc = { {5,6}, NORTH };
+        t_stack_node s = createStackNode(100);
+        drivingToBase(map, &start_loc, &s);
 
-    enqueue(&queue, start_pos);  // Ensure enqueue is done before dequeuing
-    printf("Position enqueued: (%d, %d)\n", start_pos.x, start_pos.y);
 
-    if (queue.first != queue.last) {
-        t_position dequeued_pos = dequeue(&queue);
-        printf("Dequeued Position: (%d, %d)\n", dequeued_pos.x, dequeued_pos.y);
-    } else {
-        printf("Queue is empty; cannot dequeue.\n");
-    }
-
-   
-    free(queue.values);
 
     return 0;
 }
