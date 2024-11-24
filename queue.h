@@ -39,3 +39,4 @@ void enqueue(t_queue *,t_position);
 t_position dequeue(t_queue *);
 
 #endif //UNTITLED1_QUEUE_H
+
