@@ -21,6 +21,7 @@ t_queue createQueue(int size)
     queue.last = 0;
     queue.values = (t_position *)malloc(size * sizeof(t_position));
     return queue;
+    // Complexity: O(1) - Constant time to initialize the queue.
 }
 
 void enqueue(t_queue *p_queue, t_position pos)
@@ -30,6 +31,7 @@ void enqueue(t_queue *p_queue, t_position pos)
     p_queue->values[(p_queue->last) % p_queue->size] = pos;
     p_queue->last++;
     return;
+    // Complexity: O(1) - Constant time to insert an element into the queue.
 }
 
 t_position dequeue(t_queue *p_queue)
@@ -38,4 +40,5 @@ t_position dequeue(t_queue *p_queue)
     assert(p_queue->last != p_queue->first);
     p_queue->first++;
     return p_queue->values[(p_queue->first - 1) % p_queue->size];
+    // Complexity: O(1) - Constant time to remove and retrieve an element from the queue.
 }
