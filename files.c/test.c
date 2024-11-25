@@ -7,8 +7,6 @@
 #include "stdio.h"
 #include "stdlib.h"
 
-// Test du code fourni pour les cartes et les déplacements individuels de MARC
-
 /**
  * @brief Tests the localization functions for the rover.
  */
@@ -23,15 +21,16 @@ void test_localisation() {
     t_position Down_rover = DOWN(Rover_loc.pos);
 
     // Print the initial and current positions of the rover.
-    printf("La localisation initiale de Rover est (%d,%d) oriente vers %d\n", Rover_init_loc.pos.x, Rover_init_loc.pos.y, Rover_init_loc.ori);
-    printf("La localisation actuelle de Rover est (%d,%d) oriente vers %d\n", Rover_loc.pos.x, Rover_loc.pos.y, Rover_loc.ori);
+printf("The initial location of the rover is (%d, %d) oriented towards %d\n", Rover_init_loc.pos.x, Rover_init_loc.pos.y, Rover_init_loc.ori);
+printf("The current location of the rover is (%d, %d) oriented towards %d\n", Rover_loc.pos.x, Rover_loc.pos.y, Rover_loc.ori);
 
-    // Print positions around Rover.
-    printf("La position de la case a droite de Rover est (%d,%d)\n", Right_rover.x, Right_rover.y);
-    printf("La position de la case a gauche de Rover est (%d,%d)\n", Left_rover.x, Left_rover.y);
-    printf("La position de la case au dessus de Rover est (%d,%d)\n", Up_rover.x, Up_rover.y);
-    printf("La position de la case en dessous de Rover est (%d,%d)\n", Down_rover.x, Down_rover.y);
-    printf("\n");
+// Print positions around the rover.
+printf("The position of the cell to the right of the rover is (%d, %d)\n", Right_rover.x, Right_rover.y);
+printf("The position of the cell to the left of the rover is (%d, %d)\n", Left_rover.x, Left_rover.y);
+printf("The position of the cell above the rover is (%d, %d)\n", Up_rover.x, Up_rover.y);
+printf("The position of the cell below the rover is (%d, %d)\n", Down_rover.x, Down_rover.y);
+printf("\n");
+
     // Complexity: O(1) - Each function called (e.g., loc_init, RIGHT, LEFT, UP, DOWN) is O(1), and printing is O(1) per statement.
 }
 
@@ -51,14 +50,15 @@ void test_move() {
     t_localisation move_7 = move(Rover_loc, U_TURN); // Make a U-turn.
 
     // Print the results of each move.
-    printf("La localisation de Rover apres avoir avance de 10m devrait etre (%d,%d) oriente vers %d\n", move_1.pos.x, move_1.pos.y, move_1.ori);
-    printf("La localisation de Rover apres avoir tourner a gauche devrait etre (%d,%d) oriente vers %d\n", move_2.pos.x, move_2.pos.y, move_2.ori);
-    printf("La localisation de Rover apres avoir avance de 20m devrait etre (%d,%d) oriente vers %d\n", move_3.pos.x, move_3.pos.y, move_3.ori);
-    printf("La localisation de Rover apres avoir tourner a droite devrait etre (%d,%d) oriente vers %d\n", move_4.pos.x, move_4.pos.y, move_4.ori);
-    printf("La localisation de Rover apres avoir avance de 30m devrait etre (%d,%d) oriente vers %d\n", move_5.pos.x, move_5.pos.y, move_5.ori);
-    printf("La localisation de Rover apres avoir reculer de 10m devrait etre (%d,%d) oriente vers %d\n", move_6.pos.x, move_6.pos.y, move_6.ori);
-    printf("La localisation de Rover apres fait demi-tour devrait etre (%d,%d) oriente vers %d\n", move_7.pos.x, move_7.pos.y, move_7.ori);
-    printf("\n");
+   printf("The rover's location after moving 10m should be (%d, %d) oriented towards %d\n", move_1.pos.x, move_1.pos.y, move_1.ori);
+printf("The rover's location after turning left should be (%d, %d) oriented towards %d\n", move_2.pos.x, move_2.pos.y, move_2.ori);
+printf("The rover's location after moving 20m should be (%d, %d) oriented towards %d\n", move_3.pos.x, move_3.pos.y, move_3.ori);
+printf("The rover's location after turning right should be (%d, %d) oriented towards %d\n", move_4.pos.x, move_4.pos.y, move_4.ori);
+printf("The rover's location after moving 30m should be (%d, %d) oriented towards %d\n", move_5.pos.x, move_5.pos.y, move_5.ori);
+printf("The rover's location after reversing 10m should be (%d, %d) oriented towards %d\n", move_6.pos.x, move_6.pos.y, move_6.ori);
+printf("The rover's location after making a U-turn should be (%d, %d) oriented towards %d\n", move_7.pos.x, move_7.pos.y, move_7.ori);
+printf("\n");
+
     // Complexity: O(1) per movement - The `move` function is O(1), and each print statement is O(1).
     // Total complexity: O(1) per line, with constant overhead for testing a fixed number of moves.
 }
