@@ -41,6 +41,17 @@ int main() {
         t_localisation start_loc = { {5,6}, NORTH };
         t_stack_node s = createStackNode(100);
         drivingToBase(map, &start_loc, &s);
+        t_position pos;
+        pos = getBaseStationPosition( map);
+
+
+    if(hasReachedBase( map,  pos)){
+        printf("\nReached the base successfully");
+    } else{
+        printf("No base reached");
+    }
+
+
 
 
 
