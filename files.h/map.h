@@ -58,5 +58,6 @@ t_map createMapFromFile(char *);
  */
 void displayMap(t_map);
 t_position getBaseStationPosition(t_map map);
-
+void removeFalseCrevasses(t_map map);
+void calculateCosts(t_map map);
 #endif //UNTITLED1_MAP_H
