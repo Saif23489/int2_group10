@@ -24,7 +24,8 @@ typedef enum e_move
     B_10, // Backward 10 m
     T_LEFT, // Turn left (+90°)
     T_RIGHT, // Turn right (-90°)
-    U_TURN
+    U_TURN,
+    START
 } t_move;
 
 /**
@@ -49,7 +50,7 @@ t_localisation move(t_localisation, t_move);
  * @return none
  */
 void updateLocalisation(t_localisation *, t_move);
-
-t_position calculateNextPosition(t_position pos, t_move move);
+t_move *getRandomMoves(int N);
 
 #endif //UNTITLED1_MOVES_H
+
