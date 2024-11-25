@@ -38,6 +38,8 @@ void printTree(p_node root, int level);
 void lauchedPhase(t_map map, t_localisation *start_loc, t_stack_node *s);
 void drivingToBase(t_map map, t_localisation *start_loc, t_stack_node *s);
 void freeTree(p_node root);
+void drivingToBase(t_map map, t_localisation *start_loc, t_stack_node *s);
+int hasReachedBase(t_map map, t_position pos);
 
 
 

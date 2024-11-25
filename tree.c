@@ -204,8 +204,7 @@ int hasReachedBase(t_map map, t_position pos){
         return 1;
     return 0;
 }
-/***********************************************************************************************************************/
-// Stacks functions definition
+
 
 t_stack_node createStackNode(int size)
 {
@@ -247,7 +246,7 @@ p_node topNode(t_stack_node stack) {
 int isStackEmptyNode(t_stack_node s) {
     return s.nbElts == 0;
 }
-/**********************************************************************************************************************/
+
 
 void executePath(t_stack_node *s, t_localisation *start_loc) {
     while (!isStackEmptyNode(*s)) {
