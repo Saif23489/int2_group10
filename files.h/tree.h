@@ -2,7 +2,7 @@
 // Created by ibr on 23/11/2024.
 //
 
-#ifndef UNTITLED1_TREE_H
+
 #define UNTITLED1_TREE_H
 
 #include "loc.h"
