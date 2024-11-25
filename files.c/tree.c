@@ -1,16 +1,3 @@
-//
-// Created by ibr on 23/11/2024.
-
-#include "../files.h//tree.h"
-#include "moves.h"
-#include "map.h"
-#include "stdlib.h"
-#include "assert.h"
-#include <stdio.h>
-
-
-
-
 p_node createNode(t_localisation loc, int nbSons, const t_move *available_moves, int nbMoves, int depth, p_node parent, t_move move_to_do, t_map map) {
     p_node node = malloc(sizeof(t_node));
     if (node == NULL )
@@ -52,18 +39,9 @@ p_node createNode(t_localisation loc, int nbSons, const t_move *available_moves,
     }
 
     return node;
+    // Complexity: O(nbMoves + nbSons) - Allocates memory for moves and sons, then initializes.
 }
 
-
-/**
- * Recursively creates a tree of nodes from the given parent node.
- * This method terminates the recursion based on the specified depth or
- * if the node is deemed invalid.
- *
- * @param parent A pointer to the parent node from which the tree will be constructed.
- * @param map The map containing details about soil types and costs.
- * @param k Maximum depth for the tree creation. The recursion will stop when this depth is reached.
- */
 void createTreeRecursivity(p_node parent, t_map map, int depth) {
     if (parent == NULL || parent->depth >= depth || !isValidLocalisation(parent->loc.pos, map.x_max, map.y_max))
         return;
@@ -133,6 +111,7 @@ void createTreeRecursivity(p_node parent, t_map map, int depth) {
 
         free(availsMove);
     }
+    // Complexity: O(branching_factor^depth) - Exponential growth of nodes as recursion progresses.
 }
 
 void findMinCostLeafInNode(p_node node, p_node *leaf) {
@@ -148,6 +127,7 @@ void findMinCostLeafInNode(p_node node, p_node *leaf) {
     for (int i = 0; i < node->nbSons; i++) {
         findMinCostLeafInNode(node->sons[i], leaf);
     }
+    // Complexity: O(total_nodes) - Traverses all nodes in the tree to find the leaf with the minimum cost.
 }
 
 void findMinCostLeaf(p_node root, p_node *leaf) {
@@ -155,9 +135,8 @@ void findMinCostLeaf(p_node root, p_node *leaf) {
         return;
 
     findMinCostLeafInNode(root, leaf);
+    // Complexity: O(total_nodes) - Delegates to `findMinCostLeafInNode`.
 }
-
-
 
 void printTree(p_node root, int level) {
     if (root == NULL)
@@ -170,8 +149,8 @@ void printTree(p_node root, int level) {
     for (int i = 0; i < root->nbSons; i++) {
         printTree(root->sons[i], level + 1);
     }
+    // Complexity: O(total_nodes) - Visits each node once to print its data.
 }
-
 
 void freeTree(p_node node) {
     if (node == NULL) return;
@@ -182,8 +161,8 @@ void freeTree(p_node node) {
     free(node->sons);
     free(node->avails_moves);
     free(node);
+    // Complexity: O(total_nodes) - Frees all nodes recursively.
 }
-
 
 void printPathToRoot(p_node leaf) {
     if (leaf == NULL) return;
@@ -196,102 +175,5 @@ void printPathToRoot(p_node leaf) {
 
         printf("START");
     }
-}
-
-int hasReachedBase(t_map map, t_position pos){
-    t_position base = getBaseStationPosition(map);
-    if(pos.x == base.x && pos.y == base.y)
-        return 1;
-    return 0;
-}
-
-t_stack_node createStackNode(int size)
-{
-    // the size of the stack must be positive
-    assert(size > 0);
-    t_stack_node s;
-    s.size = size;
-    s.nbElts = 0;
-    s.values = malloc(size * sizeof(p_node));
-    return s;
-}
-
-
-void pushNode(t_stack_node *p_stack, p_node value)
-{
-    // the stack must not be full
-    assert(p_stack->nbElts < p_stack->size);
-    p_stack->values[p_stack->nbElts] = value;
-    p_stack->nbElts++;
-
-}
-
-
-p_node popNode(t_stack_node *p_stack) {
-    // the stack must not be empty
-    assert(p_stack->nbElts > 0);
-    p_node value = p_stack->values[p_stack->nbElts - 1];
-    p_stack->nbElts--;
-    return value;
-}
-
-
-p_node topNode(t_stack_node stack) {
-    // the stack must not be empty
-    assert(stack.nbElts > 0);
-    return stack.values[stack.nbElts - 1];
-}
-
-int isStackEmptyNode(t_stack_node s) {
-    return s.nbElts == 0;
-}
-
-void executePath(t_stack_node *s, t_localisation *start_loc) {
-    while (!isStackEmptyNode(*s)) {
-        p_node current = popNode(s);
-        updateLocalisation(start_loc, current->move);
-    }
-
-}
-
-
-void getPath(p_node min_leaf, t_stack_node* s) {
-    if (min_leaf == NULL) return;
-    p_node current = min_leaf;
-    while (current != NULL) {
-        pushNode(s, current);
-        current = current->parent;
-    }
-}
-
-void lauchedPhase(t_map map, t_localisation *start_loc, t_stack_node *s) {
-    t_move *moves = getRandomMoves(9);
-    p_node tree = createNode(*start_loc, 9, moves, 9, 0, NULL, START, map);
-    int nbMovementsInPhase = 5;
-    if (tree->type_of_soil == REG) {
-        nbMovementsInPhase = 4;
-    }
-    createTreeRecursivity(tree, map, nbMovementsInPhase);
-    //printTree(tree,0);
-    p_node minLeaf = NULL;
-    findMinCostLeaf(tree, &minLeaf);
-    if(minLeaf != NULL) {
-        printf("\nminimal coast leave : %d\n", minLeaf->cost);
-        printPathToRoot(minLeaf);
-        getPath(minLeaf, s);
-        executePath(s, start_loc);
-    }
-    freeTree(tree);
-}
-
-
-void drivingToBase(t_map map, t_localisation *start_loc, t_stack_node *s) {
-    if (!isValidLocalisation(start_loc->pos, map.x_max, map.y_max) ||
-        map.soils[start_loc->pos.y][start_loc->pos.x] == CREVASSE) {
-        printf("Position invalide \n");
-        return;
-    }
-    while (!hasReachedBase(map, start_loc->pos)) {
-        lauchedPhase(map, start_loc, s);
-    }
+    // Complexity: O(depth) - Traverses up the tree from the leaf to the root.
 }
