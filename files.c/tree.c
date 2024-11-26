@@ -1,3 +1,13 @@
+//
+// Created by ibr on 23/11/2024.
+
+#include "../files.h//tree.h"
+#include "moves.h"
+#include "map.h"
+#include "stdlib.h"
+#include "assert.h"
+#include <stdio.h>
+
 p_node createNode(t_localisation loc, int nbSons, const t_move *available_moves, int nbMoves, int depth, p_node parent, t_move move_to_do, t_map map) {
     p_node node = malloc(sizeof(t_node));
     if (node == NULL )
