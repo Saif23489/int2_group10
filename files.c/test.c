@@ -44,14 +44,15 @@ void test_move() {
     t_localisation move_6 = move(Rover_loc,B_10);
     t_localisation move_7 = move(Rover_loc,U_TURN);
 
-    printf("La localisation de Rover apres avoir avance de 10m devrait etre (%d,%d) oriente vers %d\n",move_1.pos.x,move_1.pos.y,move_1.ori);
-    printf("La localisation de Rover apres avoir tourner a gauche devrait etre (%d,%d) oriente vers %d\n",move_2.pos.x,move_2.pos.y,move_2.ori);
-    printf("La localisation de Rover apres avoir avance de 20m devrait etre (%d,%d) oriente vers %d\n",move_3.pos.x,move_3.pos.y,move_3.ori);
-    printf("La localisation de Rover apres avoir tourner a droite devrait etre (%d,%d) oriente vers %d\n",move_4.pos.x,move_4.pos.y,move_4.ori);
-    printf("La localisation de Rover apres avoir avance de 30m devrait etre (%d,%d) oriente vers %d\n",move_5.pos.x,move_5.pos.y,move_5.ori);
-    printf("La localisation de Rover apres avoir reculer de 10m devrait etre (%d,%d) oriente vers %d\n",move_6.pos.x,move_6.pos.y,move_6.ori);
-    printf("La localisation de Rover apres fait demi-tour devrait etre (%d,%d) oriente vers %d\n",move_7.pos.x,move_7.pos.y,move_7.ori);
+    printf("The location of the Rover after moving forward 10m should be (%d,%d) oriented towards %d\n", move_1.pos.x, move_1.pos.y, move_1.ori);
+    printf("The location of the Rover after turning left should be (%d,%d) oriented towards %d\n", move_2.pos.x, move_2.pos.y, move_2.ori);
+    printf("The location of the Rover after moving forward 20m should be (%d,%d) oriented towards %d\n", move_3.pos.x, move_3.pos.y, move_3.ori);
+    printf("The location of the Rover after turning right should be (%d,%d) oriented towards %d\n", move_4.pos.x, move_4.pos.y, move_4.ori);
+    printf("The location of the Rover after moving forward 30m should be (%d,%d) oriented towards %d\n", move_5.pos.x, move_5.pos.y, move_5.ori);
+    printf("The location of the Rover after moving backward 10m should be (%d,%d) oriented towards %d\n", move_6.pos.x, move_6.pos.y, move_6.ori);
+    printf("The location of the Rover after making a U-turn should be (%d,%d) oriented towards %d\n", move_7.pos.x, move_7.pos.y, move_7.ori);
     printf("\n");
+
 }
 
 void test_getRandomMoves(){
