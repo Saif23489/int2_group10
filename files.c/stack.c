@@ -20,7 +20,6 @@ t_stack createStack(int size)
     stack.nbElts = 0;
     stack.values = (int *)malloc(size * sizeof(int));
     return stack;
-    // Complexity: O(1) - Constant time to initialize the stack and allocate memory.
 }
 
 /**
@@ -36,7 +35,6 @@ void push(t_stack *p_stack, int value)
     p_stack->values[p_stack->nbElts] = value;
     p_stack->nbElts++;
     return;
-    // Complexity: O(1) - Constant time to add an element at the end of the stack.
 }
 
 /**
@@ -50,7 +48,6 @@ int pop(t_stack *p_stack)
     assert(p_stack->nbElts > 0);
     p_stack->nbElts--;
     return p_stack->values[p_stack->nbElts];
-    // Complexity: O(1) - Constant time to remove and retrieve the top element.
 }
 
 /**
@@ -63,5 +60,4 @@ int top(t_stack stack)
     // the stack must not be empty
     assert(stack.nbElts > 0);
     return stack.values[stack.nbElts - 1];
-    // Complexity: O(1) - Constant time to access the top element.
 }
