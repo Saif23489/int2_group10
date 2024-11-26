@@ -20,13 +20,14 @@ void test_localisation(){
     t_position Down_rover = DOWN(Rover_loc.pos);
 
 
-    printf("La localisation initiale de Rover est (%d,%d) oriente vers %d\n",Rover_init_loc.pos.x,Rover_init_loc.pos.y,Rover_init_loc.ori);
-    printf("La localisation actuelle de Rover est (%d,%d) oriente vers %d\n",Rover_loc.pos.x,Rover_loc.pos.y,Rover_loc.ori);
-    printf("La position de la case a droite de Rover est (%d,%d)\n",Right_rover.x,Right_rover.y);
-    printf("La position de la case a gauche de Rover est (%d,%d)\n",Left_rover.x,Left_rover.y);
-    printf("La position de la case au dessus de Rover est (%d,%d)\n",Up_rover.x,Up_rover.y);
-    printf("La position de la case en dessous de Rover est (%d,%d)\n",Down_rover.x,Down_rover.y);
+    printf("The initial location of the Rover is (%d,%d) oriented towards %d\n", Rover_init_loc.pos.x, Rover_init_loc.pos.y, Rover_init_loc.ori);
+    printf("The current location of the Rover is (%d,%d) oriented towards %d\n", Rover_loc.pos.x, Rover_loc.pos.y, Rover_loc.ori);
+    printf("The position of the cell to the right of the Rover is (%d,%d)\n", Right_rover.x, Right_rover.y);
+    printf("The position of the cell to the left of the Rover is (%d,%d)\n", Left_rover.x, Left_rover.y);
+    printf("The position of the cell above the Rover is (%d,%d)\n", Up_rover.x, Up_rover.y);
+    printf("The position of the cell below the Rover is (%d,%d)\n", Down_rover.x, Down_rover.y);
     printf("\n");
+
 }
 
 
