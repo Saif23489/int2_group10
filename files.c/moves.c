@@ -44,8 +44,7 @@ t_orientation rotate(t_orientation ori, t_move move)
             rst=0;
             break;
     }
-    return (ori+rst)%4; 
-    // Complexity: O(1) - Constant-time operations for determining the new orientation.
+    return (ori+rst)%4;
 }
 
 t_localisation translate(t_localisation loc, t_move move)
@@ -58,21 +57,72 @@ t_localisation translate(t_localisation loc, t_move move)
     t_position res=loc.pos;
     switch (move) {
         case F_10:
+            switch (loc.ori) {
+                case NORTH:
+                    res.y = loc.pos.y - 1;
+                    break;
+                case EAST:
+                    res.x = loc.pos.x + 1;
+                    break;
+                case SOUTH:
+                    res.y = loc.pos.y + 1;
+                    break;
+                case WEST:
+                    res.x = loc.pos.x - 1;
+                    break;
+                default:
+                    break;
+            }
+            break;
         case F_20:
+            switch (loc.ori) {
+                case NORTH:
+                    res.y = loc.pos.y - 2;
+                    break;
+                case EAST:
+                    res.x = loc.pos.x + 2;
+                    break;
+                case SOUTH:
+                    res.y = loc.pos.y + 2;
+                    break;
+                case WEST:
+                    res.x = loc.pos.x - 2;
+                    break;
+                default:
+                    break;
+            }
+            break;
         case F_30:
+            switch (loc.ori) {
+                case NORTH:
+                    res.y = loc.pos.y - 3;
+                    break;
+                case EAST:
+                    res.x = loc.pos.x + 3;
+                    break;
+                case SOUTH:
+                    res.y = loc.pos.y + 3;
+                    break;
+                case WEST:
+                    res.x = loc.pos.x - 3;
+                    break;
+                default:
+                    break;
+            }
+            break;
         case B_10:
             switch (loc.ori) {
                 case NORTH:
-                    res.y = loc.pos.y + ((move == B_10) ? 1 : -move / 10);
+                    res.y = loc.pos.y + 1;
                     break;
                 case EAST:
-                    res.x = loc.pos.x + ((move == B_10) ? -1 : move / 10);
+                    res.x = loc.pos.x - 1;
                     break;
                 case SOUTH:
-                    res.y = loc.pos.y + ((move == B_10) ? -1 : move / 10);
+                    res.y = loc.pos.y - 1;
                     break;
                 case WEST:
-                    res.x = loc.pos.x + ((move == B_10) ? 1 : -move / 10);
+                    res.x = loc.pos.x + 1;
                     break;
                 default:
                     break;
@@ -81,22 +131,21 @@ t_localisation translate(t_localisation loc, t_move move)
         default:
             break;
     }
-    return loc_init(res.x, res.y, loc.ori); 
-    // Complexity: O(1) - Each move involves a few conditional checks and basic arithmetic.
+    return loc_init(res.x, res.y, loc.ori);
+
 }
 
 /* definitions of exported functions */
 
 char *getMoveAsString(t_move move)
 {
-    return _moves[move]; 
-    // Complexity: O(1) - Direct array indexing to retrieve a string representation.
+    return _moves[move];
 }
 
 t_localisation move(t_localisation loc, t_move move)
 {
     t_localisation new_loc=loc;
-    if ((move >= T_LEFT) && (move <= U_TURN))
+    if ((move >=T_LEFT) && (move <= U_TURN))
     {
         new_loc.ori = rotate(loc.ori, move);
     }
@@ -104,15 +153,14 @@ t_localisation move(t_localisation loc, t_move move)
     {
         new_loc = translate(loc, move);
     }
-    return new_loc; 
-    // Complexity: O(1) - Calls either `rotate` or `translate`, both of which are O(1).
+
+    return new_loc;
 }
 
 void updateLocalisation(t_localisation *p_loc, t_move m)
 {
     *p_loc = move(*p_loc, m);
-    return; 
-    // Complexity: O(1) - Updates the localisation by delegating to `move`, which is O(1).
+    return;
 }
 
 t_move *getRandomMoves(int N)
@@ -133,6 +181,5 @@ t_move *getRandomMoves(int N)
         total_moves--;
         moves[i] = (t_move )type;
     }
-    return moves; 
-    // Complexity: O(N) - Loops through `N` moves, with additional operations per iteration being O(1).
+    return moves;
 }
